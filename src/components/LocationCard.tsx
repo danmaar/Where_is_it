@@ -14,9 +14,6 @@ export const LocationCard = ({ location }: { location: LocationNode }) => {
     <Card onPress={() => router.push(`/location/${location.id}`)}>
       <Card.Content style={{ gap: 8 }}>
         <View style={{ flexDirection: "row", gap: 12 }}>
-          {location.photoUri ? (
-            <Image source={{ uri: location.photoUri }} style={{ width: 64, height: 64, borderRadius: 12 }} />
-          ) : null}
           <View style={{ flex: 1, gap: 8 }}>
             <View style={{ paddingLeft: location.depth * 12 }}>
               <Text variant="titleMedium">{location.name}</Text>
@@ -29,6 +26,9 @@ export const LocationCard = ({ location }: { location: LocationNode }) => {
               })}
             </Text>
           </View>
+          {location.photoUri ? (
+            <Image source={{ uri: location.photoUri }} style={{ width: 64, height: 64, borderRadius: 12 }} />
+          ) : null}
         </View>
       </Card.Content>
     </Card>

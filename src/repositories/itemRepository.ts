@@ -202,6 +202,11 @@ export const itemRepository = {
     ]);
   },
 
+  async updateQuantity(id: string, quantity: number | null) {
+    const db = await getDb();
+    await db.runAsync("UPDATE items SET quantity = ? WHERE id = ?;", [quantity, id]);
+  },
+
   async getRecent(limit = 5) {
     const items = await this.getAll(false);
     return items.slice(0, limit);

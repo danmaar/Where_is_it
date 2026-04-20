@@ -119,7 +119,12 @@ export default function LocationDetailsScreen() {
                   key={child.id}
                   title={child.name}
                   description={child.path}
-                  left={(props) => <List.Icon {...props} icon="folder-outline" />}
+                  right={(props) => (
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                      <List.Icon {...props} icon="folder-outline" />
+                      <List.Icon {...props} icon="chevron-right" />
+                    </View>
+                  )}
                   onPress={() => router.push(`/location/${child.id}`)}
                 />
               ))}
@@ -144,8 +149,12 @@ export default function LocationDetailsScreen() {
                   key={item.id}
                   title={item.name}
                   description={item.tags.length ? item.tags.join(", ") : t("locations.noTags")}
-                  left={(props) => <List.Icon {...props} icon="archive-outline" />}
-                  right={(props) => <List.Icon {...props} icon="chevron-right" />}
+                  right={(props) => (
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                      <List.Icon {...props} icon="archive-outline" />
+                      <List.Icon {...props} icon="chevron-right" />
+                    </View>
+                  )}
                   onPress={() => router.push(`/item/${item.id}`)}
                 />
               ))}

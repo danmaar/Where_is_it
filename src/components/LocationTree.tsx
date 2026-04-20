@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Image, Pressable, View } from "react-native";
 import { Surface, Text, useTheme } from "react-native-paper";
 
@@ -44,19 +44,6 @@ const buildLocationTree = (locations: LocationNode[]): LocationTreeNode[] => {
   }
 
   return roots;
-};
-
-const collectExpandedIds = (nodes: LocationTreeNode[]): string[] => {
-  const expandedIds: string[] = [];
-
-  for (const node of nodes) {
-    if (node.children.length) {
-      expandedIds.push(node.id);
-      expandedIds.push(...collectExpandedIds(node.children));
-    }
-  }
-
-  return expandedIds;
 };
 
 const BranchGuides = ({ depth }: { depth: number }) => {
@@ -141,6 +128,25 @@ const TreeRow = ({
             ) : null}
             <View style={{ flex: 1, padding: 14, gap: 10 }}>
               <View style={{ flexDirection: "row", gap: 12, alignItems: "center" }}>
+                <View style={{ flex: 1, gap: 4 }}>
+                  <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                    <Text variant={depth === 0 ? "titleMedium" : "bodyLarge"}>{node.name}</Text>
+                    {isExpandable ? (
+                      <Text style={{ color: theme.colors.primary }}>
+                        {node.children.length}
+                      </Text>
+                    ) : null}
+                  </View>
+                  <Text style={{ color: theme.colors.onSurfaceVariant }}>
+                    {t("locations.cardSummary", {
+                      childCount: node.childCount,
+                      itemCount: node.itemCount
+                    })}
+                  </Text>
+                  <Text numberOfLines={1} style={{ color: theme.colors.onSurfaceVariant }}>
+                    {node.path}
+                  </Text>
+                </View>
                 {node.photoUri ? (
                   <Image
                     source={{ uri: node.photoUri }}
@@ -164,25 +170,6 @@ const TreeRow = ({
                     />
                   </View>
                 )}
-                <View style={{ flex: 1, gap: 4 }}>
-                  <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-                    <Text variant={depth === 0 ? "titleMedium" : "bodyLarge"}>{node.name}</Text>
-                    {isExpandable ? (
-                      <Text style={{ color: theme.colors.primary }}>
-                        {node.children.length}
-                      </Text>
-                    ) : null}
-                  </View>
-                  <Text style={{ color: theme.colors.onSurfaceVariant }}>
-                    {t("locations.cardSummary", {
-                      childCount: node.childCount,
-                      itemCount: node.itemCount
-                    })}
-                  </Text>
-                  <Text numberOfLines={1} style={{ color: theme.colors.onSurfaceVariant }}>
-                    {node.path}
-                  </Text>
-                </View>
                 {isExpandable ? (
                   <Pressable
                     onPress={() => onToggle(node.id)}
@@ -233,20 +220,11 @@ const TreeRow = ({
 };
 
 export const LocationTree = ({ locations }: LocationTreeProps) => {
-  const roots = useMemo(() => buildLocationTree(locations), [locations]);
-  const [collapsedIds, setCollapsedIds] = useState<Set<string>>(new Set());
-  const expandedIds = useMemo(() => {
-    const ids = new Set(collectExpandedIds(roots));
-
-    for (const collapsedId of collapsedIds) {
-      ids.delete(collapsedId);
-    }
-
-    return ids;
-  }, [collapsedIds, roots]);
+  const roots = buildLocationTree(locations);
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
 
   const handleToggle = (id: string) => {
-    setCollapsedIds((current) => {
+    setExpandedIds((current) => {
       const next = new Set(current);
       if (next.has(id)) {
         next.delete(id);

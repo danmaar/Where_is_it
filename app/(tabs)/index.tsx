@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { EmptyState } from "@/components/EmptyState";
 import { ItemCard } from "@/components/ItemCard";
 import { Screen } from "@/components/Screen";
@@ -11,14 +12,18 @@ import { SearchBarCard } from "@/components/SearchBarCard";
 import { StatCard } from "@/components/StatCard";
 import { useAppStore } from "@/features/app/useAppStore";
 import { useI18n } from "@/i18n";
+import { itemRepository } from "@/repositories/itemRepository";
 import { statsRepository } from "@/repositories/statsRepository";
+import { ItemListRow } from "@/types/entities";
 
 type HomeData = Awaited<ReturnType<typeof statsRepository.getHomeSnapshot>>;
 
 export default function HomeScreen() {
   const [data, setData] = useState<HomeData | null>(null);
+  const [pendingFavoriteRemoval, setPendingFavoriteRemoval] = useState<ItemListRow | null>(null);
   const revision = useAppStore((state) => state.revision);
-  const { t } = useI18n();
+  const bumpRevision = useAppStore((state) => state.bumpRevision);
+  const { language, t } = useI18n();
 
   const load = useCallback(async () => {
     setData(await statsRepository.getHomeSnapshot());
@@ -29,6 +34,28 @@ export default function HomeScreen() {
       void load();
     }, [load, revision])
   );
+
+  const handleFavoritePress = async (item: ItemListRow) => {
+    if (!item.isFavorite) {
+      await itemRepository.toggleFavorite(item.id, true);
+      bumpRevision();
+      await load();
+      return;
+    }
+
+    setPendingFavoriteRemoval(item);
+  };
+
+  const handleConfirmFavoriteRemoval = async () => {
+    if (!pendingFavoriteRemoval) {
+      return;
+    }
+
+    await itemRepository.toggleFavorite(pendingFavoriteRemoval.id, false);
+    setPendingFavoriteRemoval(null);
+    bumpRevision();
+    await load();
+  };
 
   return (
     <Screen>
@@ -59,7 +86,9 @@ export default function HomeScreen() {
       <View style={{ gap: 12 }}>
         <Text variant="titleLarge">{t("common.favorites")}</Text>
         {data?.favorites.length ? (
-          data.favorites.map((item) => <ItemCard key={item.id} item={item} compact />)
+          data.favorites.map((item) => (
+            <ItemCard key={item.id} item={item} compact onFavoritePress={handleFavoritePress} />
+          ))
         ) : (
           <EmptyState
             icon="star-outline"
@@ -72,7 +101,9 @@ export default function HomeScreen() {
       <View style={{ gap: 12 }}>
         <Text variant="titleLarge">{t("home.recentUpdated")}</Text>
         {data?.recentItems.length ? (
-          data.recentItems.map((item) => <ItemCard key={item.id} item={item} compact />)
+          data.recentItems.map((item) => (
+            <ItemCard key={item.id} item={item} compact onFavoritePress={handleFavoritePress} />
+          ))
         ) : (
           <EmptyState
             icon="archive-outline"
@@ -83,6 +114,14 @@ export default function HomeScreen() {
           />
         )}
       </View>
+      <ConfirmDialog
+        visible={Boolean(pendingFavoriteRemoval)}
+        title={language === "ru" ? "Удалить из избранного?" : "Remove from favorites?"}
+        confirmLabel={language === "ru" ? "Да" : "Yes"}
+        cancelLabel={language === "ru" ? "Нет" : "No"}
+        onCancel={() => setPendingFavoriteRemoval(null)}
+        onConfirm={() => void handleConfirmFavoriteRemoval()}
+      />
     </Screen>
   );
 }

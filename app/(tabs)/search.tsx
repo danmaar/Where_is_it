@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Alert, View } from "react-native";
 import { Button, Card, List, Text } from "react-native-paper";
 
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { EmptyState } from "@/components/EmptyState";
 import { ItemCard } from "@/components/ItemCard";
 import { Screen } from "@/components/Screen";
@@ -18,9 +19,10 @@ export default function SearchScreen() {
   const [query, setQuery] = useState(typeof params.q === "string" ? params.q : "");
   const [results, setResults] = useState<ItemListRow[]>([]);
   const [recentSearches, setRecentSearches] = useState<RecentSearchEntity[]>([]);
+  const [pendingFavoriteRemoval, setPendingFavoriteRemoval] = useState<ItemListRow | null>(null);
   const revision = useAppStore((state) => state.revision);
   const bumpRevision = useAppStore((state) => state.bumpRevision);
-  const { t } = useI18n();
+  const { language, t } = useI18n();
 
   const loadRecent = useCallback(async () => {
     setRecentSearches(await searchRepository.getRecentSearches());
@@ -57,7 +59,23 @@ export default function SearchScreen() {
   };
 
   const handleFavoritePress = async (item: ItemListRow) => {
-    await itemRepository.toggleFavorite(item.id, !item.isFavorite);
+    if (!item.isFavorite) {
+      await itemRepository.toggleFavorite(item.id, true);
+      bumpRevision();
+      setResults(await searchRepository.searchItems(query));
+      return;
+    }
+
+    setPendingFavoriteRemoval(item);
+  };
+
+  const handleConfirmFavoriteRemoval = async () => {
+    if (!pendingFavoriteRemoval) {
+      return;
+    }
+
+    await itemRepository.toggleFavorite(pendingFavoriteRemoval.id, false);
+    setPendingFavoriteRemoval(null);
     bumpRevision();
     setResults(await searchRepository.searchItems(query));
   };
@@ -147,6 +165,14 @@ export default function SearchScreen() {
           )}
         </View>
       )}
+      <ConfirmDialog
+        visible={Boolean(pendingFavoriteRemoval)}
+        title={language === "ru" ? "Удалить из избранного?" : "Remove from favorites?"}
+        confirmLabel={language === "ru" ? "Да" : "Yes"}
+        cancelLabel={language === "ru" ? "Нет" : "No"}
+        onCancel={() => setPendingFavoriteRemoval(null)}
+        onConfirm={() => void handleConfirmFavoriteRemoval()}
+      />
     </Screen>
   );
 }
