@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "Где лежит?",
+    "slug": "gde-lezhit",
+    "scheme": "gde-lezhit",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#F6F1E8"
+    },
+    "android": {
+      "package": "com.codex.gdelezhit",
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": true
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Разрешите доступ к фото, чтобы прикреплять изображения к предметам.",
+          "cameraPermission": "Разрешите доступ к камере, чтобы фотографировать предметы."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
