@@ -1,8 +1,12 @@
-# Где лежит?
+# Where Is It?
 
+Offline Android inventory app for home storage tracking. The app helps keep items organized, browse locations as a tree, search quickly, manage favorites, and store everything locally with SQLite.
 
+## Download
 
-## Стек
+- [Download latest APK](./Download/where-is-it.apk)
+
+## Stack
 
 - Expo + React Native + TypeScript
 - Expo Router
@@ -11,81 +15,30 @@
 - Zustand
 - React Hook Form + Zod
 
-## Что умеет MVP
+## Features
 
-- создавать вложенные локации
-- создавать, редактировать, удалять и перемещать предметы
-- прикреплять фото из галереи и с камеры
-- искать предметы по названию и тегам
-- видеть точный полный путь хранения
-- просматривать дерево локаций
-- хранить недавние поиски
-- показывать избранное и краткую статистику
-- экспортировать все данные в JSON
-- импортировать данные из JSON с режимами merge/replace
-- работать полностью офлайн после установки
+- Nested location tree with collapse and expand support
+- Item cards with quick favorite toggle
+- Quick quantity editing on the Items tab
+- Light and dark theme support with system theme detection
+- Search by item name and tags
+- Full storage path display
+- JSON export and import
+- Offline-first local storage
 
-## Структура данных
-
-Основные сущности:
-
-- `locations`
-- `items`
-- `tags`
-- `item_tags`
-- `recent_searches`
-- `app_meta`
-
-Миграции запускаются через `PRAGMA user_version`, а демонстрационные данные подгружаются только один раз.
-
-## Запуск
+## Run locally
 
 ```bash
 npm install
 npx expo start
 ```
 
-Для Android:
+For Android:
 
 ```bash
 npx expo run:android
 ```
 
-Если вы используете Expo Go, убедитесь, что установлены совместимые версии пакетов через:
+## APK
 
-```bash
-npx expo install
-```
-
-## Backup / Restore
-
-- Экспорт создаёт JSON-файл в локальной файловой области приложения и открывает системное меню шаринга.
-- Импорт открывает системный picker и валидирует структуру файла перед загрузкой.
-- Режим `Заменить` полностью перезаписывает локальную базу.
-- Режим `Объединить` вставляет и обновляет записи по `id`, не удаляя существующие локальные данные.
-
-### Ограничения MVP
-
-- нет облачной синхронизации
-- нет аккаунтов и мультиустройств
-- нет OCR и сканирования документов
-- фото хранятся как локальные URI, поэтому после переноса backup между устройствами ссылки на изображения могут стать недействительными
-- при удалении локации требуется сначала убрать из неё дочерние локации и предметы
-
-## Демоданные
-
-При первом запуске приложение автоматически создаёт понятный стартовый набор:
-
-- Кухня / Верхний ящик → Батарейки AA
-- Шкаф / Документы → Загранпаспорт
-- Гараж / Стеллаж 2 → Удлинитель
-- Ванная / Шкафчик → Аптечка
-- Балкон / Синяя коробка → Гирлянда
-
-## Дальнейшие улучшения
-
-- полноценная тёмная тема с полировкой экранов
-- фильтры по тегам и малому остатку
-- drag-and-drop для дерева локаций
-- массовое перемещение предметов
-- более умный импорт с конфликт-резолвом
+The repository includes a ready-to-install Android package in the `Download/` folder.
