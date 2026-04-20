@@ -32,7 +32,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="locations"
+        name="locations/index"
         options={{
           title: t("navigation.locations"),
           headerTitle: t("navigation.locations"),
@@ -42,7 +42,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="items"
+        name="items/index"
         options={{
           title: t("navigation.items"),
           headerTitle: t("navigation.items"),
