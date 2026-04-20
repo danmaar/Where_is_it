@@ -1,5 +1,6 @@
 node_modules
 .expo
+.tools
 dist
 dist-export
 web-build
