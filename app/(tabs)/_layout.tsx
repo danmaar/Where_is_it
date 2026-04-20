@@ -1,16 +1,33 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { useTheme } from "react-native-paper";
 
 import { useI18n } from "@/i18n";
 
 export default function TabsLayout() {
   const { t } = useI18n();
+  const theme = useTheme();
 
   return (
     <Tabs
       screenOptions={{
         headerTitleAlign: "left",
-        tabBarActiveTintColor: "#2F6B5E"
+        headerStyle: {
+          backgroundColor: theme.colors.surface
+        },
+        headerTintColor: theme.colors.onSurface,
+        headerTitleStyle: {
+          color: theme.colors.onSurface
+        },
+        sceneStyle: {
+          backgroundColor: theme.colors.background
+        },
+        tabBarStyle: {
+          backgroundColor: theme.colors.surface,
+          borderTopColor: theme.colors.outlineVariant
+        },
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: theme.colors.onSurfaceVariant
       }}
     >
       <Tabs.Screen

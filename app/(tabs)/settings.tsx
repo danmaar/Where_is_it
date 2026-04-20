@@ -4,14 +4,16 @@ import { Button, Card, List, SegmentedButtons, Text } from "react-native-paper";
 
 import { Screen } from "@/components/Screen";
 import { exportBackup, importBackup } from "@/database/backup";
-import { setStoredLanguage } from "@/features/app/preferences";
-import { useAppStore } from "@/features/app/useAppStore";
+import { setStoredLanguage, setStoredThemeMode } from "@/features/app/preferences";
+import { AppThemeMode, useAppStore } from "@/features/app/useAppStore";
 import { useI18n } from "@/i18n";
 
 export default function SettingsScreen() {
   const [loading, setLoading] = useState(false);
   const bumpRevision = useAppStore((state) => state.bumpRevision);
   const setLanguage = useAppStore((state) => state.setLanguage);
+  const themeMode = useAppStore((state) => state.themeMode);
+  const setThemeMode = useAppStore((state) => state.setThemeMode);
   const { language, t } = useI18n();
 
   const handleExport = async () => {
@@ -68,8 +70,30 @@ export default function SettingsScreen() {
     await setStoredLanguage(nextLanguage);
   };
 
+  const handleThemeChange = async (value: string) => {
+    const nextThemeMode = value as AppThemeMode;
+    setThemeMode(nextThemeMode);
+    await setStoredThemeMode(nextThemeMode);
+  };
+
   return (
     <Screen>
+      <Card>
+        <Card.Title title={t("settings.themeTitle")} />
+        <Card.Content style={{ gap: 12 }}>
+          <Text>{t("settings.themeDescription")}</Text>
+          <SegmentedButtons
+            value={themeMode}
+            onValueChange={(value) => void handleThemeChange(value)}
+            buttons={[
+              { value: "system", label: t("settings.themeSystem") },
+              { value: "light", label: t("settings.themeLight") },
+              { value: "dark", label: t("settings.themeDark") }
+            ]}
+          />
+        </Card.Content>
+      </Card>
+
       <Card>
         <Card.Title title={t("settings.languageTitle")} />
         <Card.Content style={{ gap: 12 }}>

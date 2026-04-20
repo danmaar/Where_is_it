@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import { FAB, Text } from "react-native-paper";
 
 import { EmptyState } from "@/components/EmptyState";
-import { LocationCard } from "@/components/LocationCard";
+import { LocationTree } from "@/components/LocationTree";
 import { Screen } from "@/components/Screen";
 import { useAppStore } from "@/features/app/useAppStore";
 import { useI18n } from "@/i18n";
@@ -32,7 +32,7 @@ export default function LocationsScreen() {
           {t("locations.intro")}
         </Text>
         {locations.length ? (
-          locations.map((location) => <LocationCard key={location.id} location={location} />)
+          <LocationTree locations={locations} />
         ) : (
           <EmptyState
             icon="folder-plus-outline"

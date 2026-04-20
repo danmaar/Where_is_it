@@ -1,7 +1,7 @@
 import { Stack, useFocusEffect, useLocalSearchParams, router } from "expo-router";
 import { useCallback, useState } from "react";
 import { Alert, Image, View } from "react-native";
-import { Button, Card, List, Text } from "react-native-paper";
+import { Button, Card, List, Text, useTheme } from "react-native-paper";
 
 import { EmptyState } from "@/components/EmptyState";
 import { PathText } from "@/components/PathText";
@@ -12,6 +12,7 @@ import { locationRepository } from "@/repositories/locationRepository";
 import { LocationDetails } from "@/types/entities";
 
 export default function LocationDetailsScreen() {
+  const theme = useTheme();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [location, setLocation] = useState<LocationDetails | null>(null);
   const bumpRevision = useAppStore((state) => state.bumpRevision);
@@ -101,7 +102,7 @@ export default function LocationDetailsScreen() {
             <Button onPress={() => router.push({ pathname: "/location/edit", params: { id: location.id } })}>
               {t("common.edit")}
             </Button>
-            <Button textColor="#B3261E" onPress={handleDelete}>
+            <Button textColor={theme.colors.error} onPress={handleDelete}>
               {t("common.delete")}
             </Button>
           </View>

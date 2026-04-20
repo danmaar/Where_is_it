@@ -1,7 +1,7 @@
 import { Stack, useFocusEffect, useLocalSearchParams, router } from "expo-router";
 import { useCallback, useState } from "react";
 import { Alert, Image, View } from "react-native";
-import { Button, Card, Chip, Switch, Text } from "react-native-paper";
+import { Button, Card, Chip, Switch, Text, useTheme } from "react-native-paper";
 
 import { EmptyState } from "@/components/EmptyState";
 import { PathText } from "@/components/PathText";
@@ -13,6 +13,7 @@ import { ItemDetails } from "@/types/entities";
 import { formatDateTime, formatQuantity } from "@/utils/format";
 
 export default function ItemDetailsScreen() {
+  const theme = useTheme();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [item, setItem] = useState<ItemDetails | null>(null);
   const revision = useAppStore((state) => state.revision);
@@ -112,7 +113,7 @@ export default function ItemDetailsScreen() {
             <Button mode="contained" onPress={() => router.push({ pathname: "/item/edit", params: { id: item.id } })}>
               {t("common.edit")}
             </Button>
-            <Button textColor="#B3261E" onPress={handleDelete}>
+            <Button textColor={theme.colors.error} onPress={handleDelete}>
               {t("common.delete")}
             </Button>
           </View>

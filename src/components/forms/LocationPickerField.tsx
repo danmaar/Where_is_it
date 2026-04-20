@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FlatList, Pressable, View } from "react-native";
-import { Button, Dialog, Portal, RadioButton, Text } from "react-native-paper";
+import { Button, Dialog, Portal, RadioButton, Text, useTheme } from "react-native-paper";
 
 import { useI18n } from "@/i18n";
 import { LocationNode } from "@/types/entities";
@@ -23,6 +23,7 @@ export const LocationPickerField = ({
   emptyLabel
 }: LocationPickerFieldProps) => {
   const { t } = useI18n();
+  const theme = useTheme();
   const [visible, setVisible] = useState(false);
   const resolvedEmptyLabel = emptyLabel ?? t("location.emptyParent");
   const current = options.find((option) => option.id === value);
@@ -33,7 +34,7 @@ export const LocationPickerField = ({
         <View
           style={{
             borderWidth: 1,
-            borderColor: "#857567",
+            borderColor: theme.colors.outline,
             borderRadius: 12,
             paddingHorizontal: 16,
             paddingVertical: 14,
@@ -41,7 +42,7 @@ export const LocationPickerField = ({
           }}
         >
           <Text variant="labelLarge">{label}</Text>
-          <Text>{current?.path ?? resolvedEmptyLabel}</Text>
+          <Text style={{ color: theme.colors.onSurface }}>{current?.path ?? resolvedEmptyLabel}</Text>
         </View>
       </Pressable>
       <Portal>

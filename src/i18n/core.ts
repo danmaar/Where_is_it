@@ -117,6 +117,12 @@ const translations = {
       saveErrorFallback: "Попробуйте ещё раз."
     },
     settings: {
+      themeTitle: "Тема оформления",
+      themeDescription:
+        "Используйте системную тему устройства или вручную переключайте светлый и тёмный режим.",
+      themeSystem: "Система",
+      themeLight: "Светлая",
+      themeDark: "Тёмная",
       languageTitle: "Язык интерфейса",
       languageDescription: "Переключайте приложение между русским и английским.",
       russian: "Русский",
@@ -285,6 +291,12 @@ const translations = {
       saveErrorFallback: "Please try again."
     },
     settings: {
+      themeTitle: "Theme",
+      themeDescription:
+        "Follow the device theme automatically or switch between light and dark mode manually.",
+      themeSystem: "System",
+      themeLight: "Light",
+      themeDark: "Dark",
       languageTitle: "Interface language",
       languageDescription: "Switch the app between Russian and English.",
       russian: "Русский",

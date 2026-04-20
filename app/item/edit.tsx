@@ -67,9 +67,8 @@ export default function EditItemScreen() {
 
   const pickFromGallery = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 0.7,
-      allowsEditing: true
+      mediaTypes: ["images"],
+      quality: 0.7
     });
 
     if (!result.canceled) {
@@ -85,8 +84,7 @@ export default function EditItemScreen() {
     }
 
     const result = await ImagePicker.launchCameraAsync({
-      quality: 0.7,
-      allowsEditing: true
+      quality: 0.7
     });
 
     if (!result.canceled) {
