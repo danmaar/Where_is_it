@@ -2,7 +2,6 @@ import { getDb } from "@/database/client";
 import { AppStats } from "@/types/entities";
 
 import { itemRepository } from "./itemRepository";
-import { searchRepository } from "./searchRepository";
 
 export const statsRepository = {
   async getStats(): Promise<AppStats> {
@@ -19,18 +18,16 @@ export const statsRepository = {
   },
 
   async getHomeSnapshot() {
-    const [stats, recentItems, favorites, recentSearches] = await Promise.all([
+    const [stats, recentItems, favorites] = await Promise.all([
       this.getStats(),
       itemRepository.getRecent(5),
-      itemRepository.getFavorites(5),
-      searchRepository.getRecentSearches()
+      itemRepository.getFavorites(5)
     ]);
 
     return {
       stats,
       recentItems,
-      favorites,
-      recentSearches
+      favorites
     };
   }
 };

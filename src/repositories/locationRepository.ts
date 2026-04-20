@@ -11,6 +11,7 @@ type RawLocationRow = {
   id: string;
   name: string;
   parentId: string | null;
+  photoUri: string | null;
   createdAt: string;
   updatedAt: string;
   path: string;
@@ -58,6 +59,7 @@ export const locationRepository = {
           id,
           name,
           parent_id as parentId,
+          photo_uri as photoUri,
           created_at as createdAt,
           updated_at as updatedAt,
           name as path,
@@ -69,6 +71,7 @@ export const locationRepository = {
           l.id,
           l.name,
           l.parent_id as parentId,
+          l.photo_uri as photoUri,
           l.created_at as createdAt,
           l.updated_at as updatedAt,
           lp.path || ' / ' || l.name as path,
@@ -91,6 +94,7 @@ export const locationRepository = {
       id: string;
       name: string;
       parentId: string | null;
+      photoUri: string | null;
       createdAt: string;
       updatedAt: string;
     }>(
@@ -99,6 +103,7 @@ export const locationRepository = {
           id,
           name,
           parent_id as parentId,
+          photo_uri as photoUri,
           created_at as createdAt,
           updated_at as updatedAt
         FROM locations
@@ -202,9 +207,9 @@ export const locationRepository = {
     const id = createId("loc");
     const timestamp = nowIso();
     await db.runAsync(
-      `INSERT INTO locations (id, name, parent_id, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?);`,
-      [id, input.name, input.parentId, timestamp, timestamp]
+      `INSERT INTO locations (id, name, parent_id, photo_uri, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?);`,
+      [id, input.name, input.parentId, input.photoUri, timestamp, timestamp]
     );
     return id;
   },
@@ -220,9 +225,9 @@ export const locationRepository = {
     const db = await getDb();
     await db.runAsync(
       `UPDATE locations
-       SET name = ?, parent_id = ?, updated_at = ?
+       SET name = ?, parent_id = ?, photo_uri = ?, updated_at = ?
        WHERE id = ?;`,
-      [input.name, input.parentId, nowIso(), id]
+      [input.name, input.parentId, input.photoUri, nowIso(), id]
     );
   },
 

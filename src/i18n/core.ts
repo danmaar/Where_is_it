@@ -5,7 +5,7 @@ type TranslationValue = string | ((params?: TranslationParams) => string);
 
 const translations = {
   ru: {
-    appName: "Где лежит?",
+    appName: "Мой инвентарь",
     common: {
       add: "Добавить",
       save: "Сохранить",
@@ -75,7 +75,7 @@ const translations = {
       itemsEmptyTitle: "Предметов нет",
       itemsEmptyDescription: "Добавьте предмет прямо в эту локацию.",
       noTags: "Без тегов",
-      cardSummary: ({ childCount, itemCount }) =>
+      cardSummary: ({ childCount, itemCount }: TranslationParams = {}) =>
         `Вложенные локации: ${childCount} · Предметы здесь: ${itemCount}`
     },
     item: {
@@ -94,8 +94,8 @@ const translations = {
       editTitle: "Редактировать предмет",
       missingTitle: "Предмет не найден",
       missingDescription: "Возможно, он был удалён.",
-      createdAt: ({ value }) => `Создан: ${value}`,
-      updatedAt: ({ value }) => `Обновлён: ${value}`,
+      createdAt: ({ value }: TranslationParams = {}) => `Создан: ${value}`,
+      updatedAt: ({ value }: TranslationParams = {}) => `Обновлён: ${value}`,
       deleteConfirmTitle: "Подтвердите удаление",
       deleteConfirmDescription: "Предмет будет удалён из локальной базы.",
       saveErrorTitle: "Не удалось сохранить",
@@ -142,7 +142,7 @@ const translations = {
       importMerge: "Объединить",
       importReplace: "Заменить",
       aboutTitle: "О приложении",
-      aboutAppTitle: "Где лежит?",
+      aboutAppTitle: "Мой инвентарь",
       aboutAppDescription:
         "Offline-first MVP для домашнего инвентаря без облака и без регистрации.",
       aboutStorageTitle: "Локальное хранение",
@@ -169,11 +169,11 @@ const translations = {
     },
     formatting: {
       unspecified: "Не указано",
-      pieces: ({ value }) => `${value} шт.`
+      pieces: ({ value }: TranslationParams = {}) => `${value} шт.`
     }
   },
   en: {
-    appName: "Where Is It?",
+    appName: "My Inventory",
     common: {
       add: "Add",
       save: "Save",
@@ -243,7 +243,7 @@ const translations = {
       itemsEmptyTitle: "No items",
       itemsEmptyDescription: "Add an item directly to this location.",
       noTags: "No tags",
-      cardSummary: ({ childCount, itemCount }) =>
+      cardSummary: ({ childCount, itemCount }: TranslationParams = {}) =>
         `Nested locations: ${childCount} · Items here: ${itemCount}`
     },
     item: {
@@ -262,8 +262,8 @@ const translations = {
       editTitle: "Edit item",
       missingTitle: "Item not found",
       missingDescription: "It may have been deleted.",
-      createdAt: ({ value }) => `Created: ${value}`,
-      updatedAt: ({ value }) => `Updated: ${value}`,
+      createdAt: ({ value }: TranslationParams = {}) => `Created: ${value}`,
+      updatedAt: ({ value }: TranslationParams = {}) => `Updated: ${value}`,
       deleteConfirmTitle: "Confirm deletion",
       deleteConfirmDescription: "The item will be deleted from local storage.",
       saveErrorTitle: "Could not save",
@@ -310,7 +310,7 @@ const translations = {
       importMerge: "Merge",
       importReplace: "Replace",
       aboutTitle: "About",
-      aboutAppTitle: "Where Is It?",
+      aboutAppTitle: "My Inventory",
       aboutAppDescription: "An offline-first MVP for home inventory with no cloud and no sign-up.",
       aboutStorageTitle: "Local storage",
       aboutStorageDescription: "All data stays only on the device in SQLite.",
@@ -337,7 +337,7 @@ const translations = {
     },
     formatting: {
       unspecified: "Not specified",
-      pieces: ({ value }) => `${value} pcs`
+      pieces: ({ value }: TranslationParams = {}) => `${value} pcs`
     }
   }
 } satisfies Record<AppLanguage, Record<string, unknown>>;
@@ -371,7 +371,7 @@ export const translate = (language: AppLanguage, key: string, params?: Translati
   const entry = getByPath(translations[language], key);
 
   if (typeof entry === "function") {
-    return (entry as TranslationValue)(params);
+    return (entry as (params?: TranslationParams) => string)(params);
   }
 
   if (typeof entry === "string") {

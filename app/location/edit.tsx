@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import * as ImagePicker from "expo-image-picker";
 import { Stack, useFocusEffect, useLocalSearchParams, router } from "expo-router";
 import { useCallback, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Alert } from "react-native";
+import { Alert, Image, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 
 import { LocationPickerField } from "@/components/forms/LocationPickerField";
@@ -21,13 +22,15 @@ export default function EditLocationScreen() {
   const bumpRevision = useAppStore((state) => state.bumpRevision);
   const { language, t } = useI18n();
 
-  const { control, handleSubmit, reset, setValue } = useForm<LocationFormValues>({
+  const { control, handleSubmit, reset, setValue, watch } = useForm<LocationFormValues>({
     resolver: zodResolver(createLocationSchema(language)),
     defaultValues: {
       name: "",
-      parentId: initialParentId
+      parentId: initialParentId,
+      photoUri: null
     }
   });
+  const photoUri = watch("photoUri");
 
   const load = useCallback(async () => {
     const parents = await locationRepository.getSelectableParents(locationId ?? null);
@@ -37,7 +40,8 @@ export default function EditLocationScreen() {
       if (existing) {
         reset({
           name: existing.name,
-          parentId: existing.parentId
+          parentId: existing.parentId,
+          photoUri: existing.photoUri
         });
       }
     } else {
@@ -50,6 +54,35 @@ export default function EditLocationScreen() {
       void load();
     }, [load])
   );
+
+  const pickFromGallery = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 0.7,
+      allowsEditing: true
+    });
+
+    if (!result.canceled) {
+      setValue("photoUri", result.assets[0].uri);
+    }
+  };
+
+  const takePhoto = async () => {
+    const permission = await ImagePicker.requestCameraPermissionsAsync();
+    if (!permission.granted) {
+      Alert.alert(t("item.cameraPermissionTitle"), t("item.cameraPermissionDescription"));
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      quality: 0.7,
+      allowsEditing: true
+    });
+
+    if (!result.canceled) {
+      setValue("photoUri", result.assets[0].uri);
+    }
+  };
 
   const onSubmit = handleSubmit(async (values) => {
     try {
@@ -100,6 +133,19 @@ export default function EditLocationScreen() {
           />
         )}
       />
+
+      {photoUri ? (
+        <Image source={{ uri: photoUri }} style={{ width: "100%", height: 220, borderRadius: 16 }} />
+      ) : null}
+      <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>
+        <Button mode="contained-tonal" onPress={() => void pickFromGallery()}>
+          {t("item.gallery")}
+        </Button>
+        <Button mode="contained-tonal" onPress={() => void takePhoto()}>
+          {t("item.camera")}
+        </Button>
+        {photoUri ? <Button onPress={() => setValue("photoUri", null)}>{t("item.removePhoto")}</Button> : null}
+      </View>
 
       <Button mode="contained" onPress={onSubmit}>
         {t("common.save")}

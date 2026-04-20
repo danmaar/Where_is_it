@@ -1,16 +1,17 @@
 {
   "expo": {
-    "name": "Где лежит?",
+    "name": "My Inventory",
     "slug": "gde-lezhit",
     "scheme": "gde-lezhit",
     "version": "0.1.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
-    "splash": {
-      "resizeMode": "contain",
-      "backgroundColor": "#F6F1E8"
-    },
+    "icon": "./assets/logo_inventory.png",
     "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/logo_inventory.png",
+        "backgroundColor": "#00000000"
+      },
       "package": "com.codex.gdelezhit",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": true

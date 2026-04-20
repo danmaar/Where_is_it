@@ -11,22 +11,29 @@ import { PathText } from "./PathText";
 type ItemCardProps = {
   item: ItemListRow;
   compact?: boolean;
+  photoPosition?: "left" | "right";
   onFavoritePress?: (item: ItemListRow) => void;
 };
 
-export const ItemCard = ({ item, compact = false, onFavoritePress }: ItemCardProps) => {
+export const ItemCard = ({
+  item,
+  compact = false,
+  photoPosition = "left",
+  onFavoritePress
+}: ItemCardProps) => {
   const { language, t } = useI18n();
+  const photo = item.photoUri ? (
+    <Image
+      source={{ uri: item.photoUri }}
+      style={{ width: compact ? 56 : 72, height: compact ? 56 : 72, borderRadius: 12 }}
+    />
+  ) : null;
 
   return (
     <Card onPress={() => router.push(`/item/${item.id}`)}>
       <Card.Content style={{ gap: 10 }}>
         <View style={{ flexDirection: "row", gap: 12 }}>
-          {item.photoUri ? (
-            <Image
-              source={{ uri: item.photoUri }}
-              style={{ width: compact ? 56 : 72, height: compact ? 56 : 72, borderRadius: 12 }}
-            />
-          ) : null}
+          {photoPosition === "left" ? photo : null}
           <View style={{ flex: 1, gap: 6 }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Text variant={compact ? "titleSmall" : "titleMedium"} style={{ flex: 1 }}>
@@ -52,6 +59,7 @@ export const ItemCard = ({ item, compact = false, onFavoritePress }: ItemCardPro
               </View>
             ) : null}
           </View>
+          {photoPosition === "right" ? photo : null}
         </View>
       </Card.Content>
     </Card>

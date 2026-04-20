@@ -1,6 +1,6 @@
 import { Stack, useFocusEffect, useLocalSearchParams, router } from "expo-router";
 import { useCallback, useState } from "react";
-import { Alert, View } from "react-native";
+import { Alert, Image, View } from "react-native";
 import { Button, Card, List, Text } from "react-native-paper";
 
 import { EmptyState } from "@/components/EmptyState";
@@ -75,6 +75,12 @@ export default function LocationDetailsScreen() {
       <Stack.Screen options={{ title: location.name }} />
       <Card>
         <Card.Content style={{ gap: 12 }}>
+          {location.photoUri ? (
+            <Image
+              source={{ uri: location.photoUri }}
+              style={{ width: "100%", height: 220, borderRadius: 18 }}
+            />
+          ) : null}
           <Text variant="headlineSmall">{location.name}</Text>
           <PathText path={location.path} />
           <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>

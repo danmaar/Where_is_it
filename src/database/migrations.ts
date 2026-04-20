@@ -53,6 +53,12 @@ const MIGRATIONS = [
       CREATE INDEX IF NOT EXISTS idx_items_name ON items(name COLLATE NOCASE);
       CREATE INDEX IF NOT EXISTS idx_recent_searches_created_at ON recent_searches(created_at DESC);
     `
+  },
+  {
+    version: 2,
+    sql: `
+      ALTER TABLE locations ADD COLUMN photo_uri TEXT;
+    `
   }
 ];
 

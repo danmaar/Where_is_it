@@ -12,7 +12,8 @@ const createRequiredName = (language: AppLanguage) =>
 export const createLocationSchema = (language: AppLanguage) =>
   z.object({
     name: createRequiredName(language),
-    parentId: z.string().nullable()
+    parentId: z.string().nullable(),
+    photoUri: z.string().nullable()
   });
 
 export const createItemSchema = (language: AppLanguage) =>
@@ -41,6 +42,7 @@ export const backupSchema = z.object({
       id: z.string(),
       name: z.string(),
       parentId: z.string().nullable(),
+      photoUri: z.string().nullable(),
       createdAt: z.string(),
       updatedAt: z.string()
     })

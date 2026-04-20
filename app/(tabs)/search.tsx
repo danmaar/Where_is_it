@@ -63,13 +63,18 @@ export default function SearchScreen() {
   };
 
   const handleSubmit = async () => {
-    if (!query.trim()) {
+    const value = query.trim();
+    if (!value) {
       return;
     }
 
-    await searchRepository.addRecentSearch(query);
+    if (value !== query) {
+      setQuery(value);
+    }
+
+    await searchRepository.addRecentSearch(value);
     setRecentSearches(await searchRepository.getRecentSearches());
-    setResults(await searchRepository.searchItems(query));
+    setResults(await searchRepository.searchItems(value));
   };
 
   const handleClearRecent = () => {
@@ -91,6 +96,7 @@ export default function SearchScreen() {
       <SearchBarCard
         value={query}
         onChangeText={setQuery}
+        onSubmit={() => void handleSubmit()}
         autoFocus
         placeholder={t("search.placeholder")}
       />

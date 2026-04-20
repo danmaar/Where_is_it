@@ -8,6 +8,7 @@ type SearchBarCardProps = {
   placeholder?: string;
   onPress?: () => void;
   onChangeText?: (value: string) => void;
+  onSubmit?: () => void;
   autoFocus?: boolean;
 };
 
@@ -16,6 +17,7 @@ export const SearchBarCard = ({
   placeholder,
   onPress,
   onChangeText,
+  onSubmit,
   autoFocus
 }: SearchBarCardProps) => {
   const { t } = useI18n();
@@ -40,6 +42,9 @@ export const SearchBarCard = ({
       value={value}
       placeholder={resolvedPlaceholder}
       onChangeText={onChangeText}
+      onIconPress={onSubmit}
+      onSubmitEditing={() => onSubmit?.()}
+      returnKeyType="search"
       autoFocus={autoFocus}
       style={{ borderRadius: 20 }}
     />

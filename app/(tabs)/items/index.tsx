@@ -46,7 +46,12 @@ export default function ItemsScreen() {
         />
         {items.length ? (
           items.map((item) => (
-            <ItemCard key={item.id} item={item} onFavoritePress={handleFavoritePress} />
+            <ItemCard
+              key={item.id}
+              item={item}
+              photoPosition="right"
+              onFavoritePress={handleFavoritePress}
+            />
           ))
         ) : (
           <EmptyState

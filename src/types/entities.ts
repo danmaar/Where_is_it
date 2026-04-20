@@ -4,6 +4,7 @@ export type LocationEntity = {
   id: EntityId;
   name: string;
   parentId: EntityId | null;
+  photoUri: string | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -82,4 +83,5 @@ export type ItemInput = {
 export type LocationInput = {
   name: string;
   parentId: EntityId | null;
+  photoUri: string | null;
 };

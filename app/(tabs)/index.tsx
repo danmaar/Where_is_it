@@ -2,7 +2,7 @@ import { useFocusEffect } from "expo-router";
 import { router } from "expo-router";
 import { useCallback, useState } from "react";
 import { View } from "react-native";
-import { Button, Card, List, Text } from "react-native-paper";
+import { Button, Card, Text } from "react-native-paper";
 
 import { EmptyState } from "@/components/EmptyState";
 import { ItemCard } from "@/components/ItemCard";
@@ -80,30 +80,6 @@ export default function HomeScreen() {
             description={t("home.noItemsDescription")}
             actionLabel={t("home.addItem")}
             onActionPress={() => router.push("/item/edit")}
-          />
-        )}
-      </View>
-
-      <View style={{ gap: 12 }}>
-        <Text variant="titleLarge">{t("home.recentSearches")}</Text>
-        {data?.recentSearches.length ? (
-          <Card>
-            <Card.Content>
-              {data.recentSearches.map((entry) => (
-                <List.Item
-                  key={entry.id}
-                  title={entry.query}
-                  left={(props) => <List.Icon {...props} icon="history" />}
-                  onPress={() => router.push({ pathname: "/(tabs)/search", params: { q: entry.query } })}
-                />
-              ))}
-            </Card.Content>
-          </Card>
-        ) : (
-          <EmptyState
-            icon="history"
-            title={t("home.noSearchesTitle")}
-            description={t("home.noSearchesDescription")}
           />
         )}
       </View>

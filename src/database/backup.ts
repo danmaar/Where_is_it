@@ -48,7 +48,7 @@ export const exportBackup = async ({ language }: BackupOptions) => {
     version: BACKUP_VERSION,
     exportedAt: new Date().toISOString(),
     locations: await db.getAllAsync<BackupPayload["locations"][number]>(
-      "SELECT id, name, parent_id as parentId, created_at as createdAt, updated_at as updatedAt FROM locations ORDER BY created_at ASC;"
+      "SELECT id, name, parent_id as parentId, photo_uri as photoUri, created_at as createdAt, updated_at as updatedAt FROM locations ORDER BY created_at ASC;"
     ),
     items: await db.getAllAsync<BackupPayload["items"][number]>(
       "SELECT id, name, location_id as locationId, photo_uri as photoUri, quantity, notes, is_favorite as isFavorite, created_at as createdAt, updated_at as updatedAt FROM items ORDER BY created_at ASC;"
@@ -118,9 +118,9 @@ const insertBackup = async (
 
     for (const location of sortLocationsForImport(payload.locations, language)) {
       await db.runAsync(
-        `INSERT OR REPLACE INTO locations (id, name, parent_id, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?);`,
-        [location.id, location.name, location.parentId, location.createdAt, location.updatedAt]
+        `INSERT OR REPLACE INTO locations (id, name, parent_id, photo_uri, created_at, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?);`,
+        [location.id, location.name, location.parentId, location.photoUri, location.createdAt, location.updatedAt]
       );
     }
 
