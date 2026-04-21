@@ -3,7 +3,7 @@
     "name": "Where is it?",
     "slug": "gde-lezhit",
     "scheme": "gde-lezhit",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "icon": "./assets/logo_inventory.png",

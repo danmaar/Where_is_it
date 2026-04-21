@@ -154,7 +154,8 @@ const translations = {
       aboutStorageTitle: "Локальное хранение",
       aboutStorageDescription: "Все данные находятся только на устройстве в SQLite.",
       aboutPlatformTitle: "Android-first",
-      aboutPlatformDescription: "Интерфейс и сценарии оптимизированы под Android."
+      aboutPlatformDescription: "Интерфейс и сценарии оптимизированы под Android.",
+      privacyPolicyTitle: "Политика конфиденциальности"
     },
     backup: {
       corruptedStructure:
@@ -327,7 +328,8 @@ const translations = {
       aboutStorageTitle: "Local storage",
       aboutStorageDescription: "All data stays only on the device in SQLite.",
       aboutPlatformTitle: "Android-first",
-      aboutPlatformDescription: "The interface and flows are optimized for Android."
+      aboutPlatformDescription: "The interface and flows are optimized for Android.",
+      privacyPolicyTitle: "Privacy Policy"
     },
     backup: {
       corruptedStructure:

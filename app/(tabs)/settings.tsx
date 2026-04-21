@@ -10,6 +10,7 @@ import { useI18n } from "@/i18n";
 
 export default function SettingsScreen() {
   const authorRepositoryUrl = "https://github.com/danmaar/my-inventory";
+  const privacyPolicyUrl = "https://danmaar.github.io/Where_is_it/privacy-policy/";
   const [loading, setLoading] = useState(false);
   const bumpRevision = useAppStore((state) => state.bumpRevision);
   const setLanguage = useAppStore((state) => state.setLanguage);
@@ -77,11 +78,11 @@ export default function SettingsScreen() {
     await setStoredThemeMode(nextThemeMode);
   };
 
-  const handleOpenAuthorRepository = async () => {
+  const openExternalUrl = async (title: string, url: string) => {
     try {
-      await Linking.openURL(authorRepositoryUrl);
+      await Linking.openURL(url);
     } catch {
-      Alert.alert("GitHub", authorRepositoryUrl);
+      Alert.alert(title, url);
     }
   };
 
@@ -154,7 +155,14 @@ export default function SettingsScreen() {
             description={authorRepositoryUrl.replace("https://", "")}
             left={(props) => <List.Icon {...props} icon="github" />}
             right={(props) => <List.Icon {...props} icon="open-in-new" />}
-            onPress={() => void handleOpenAuthorRepository()}
+            onPress={() => void openExternalUrl("GitHub", authorRepositoryUrl)}
+          />
+          <List.Item
+            title={t("settings.privacyPolicyTitle")}
+            description={privacyPolicyUrl.replace("https://", "")}
+            left={(props) => <List.Icon {...props} icon="shield-lock-outline" />}
+            right={(props) => <List.Icon {...props} icon="open-in-new" />}
+            onPress={() => void openExternalUrl(t("settings.privacyPolicyTitle"), privacyPolicyUrl)}
           />
         </Card.Content>
       </Card>
