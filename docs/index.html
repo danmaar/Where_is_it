@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Where is it? - Legal</title>
+    <meta
+      name="description"
+      content="Legal pages for the Where is it? app, including the privacy policy."
+    />
+    <style>
+      :root {
+        --bg: #f6f3ec;
+        --surface: rgba(255, 252, 246, 0.88);
+        --surface-strong: #fffaf2;
+        --text: #1f1a17;
+        --muted: #5f5751;
+        --accent: #b85c38;
+        --accent-strong: #8d4121;
+        --border: rgba(101, 84, 72, 0.15);
+        --shadow: 0 24px 64px rgba(74, 56, 44, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        color-scheme: light;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Georgia, "Times New Roman", serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(184, 92, 56, 0.14), transparent 34%),
+          radial-gradient(circle at bottom right, rgba(142, 97, 54, 0.15), transparent 30%),
+          linear-gradient(180deg, #f8f5ef 0%, var(--bg) 100%);
+      }
+
+      .wrap {
+        width: min(960px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 56px 0 80px;
+      }
+
+      .hero {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(10px);
+        padding: 40px 28px;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        margin: 0 0 16px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(184, 92, 56, 0.1);
+        color: var(--accent-strong);
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.3rem, 6vw, 4.6rem);
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+      }
+
+      .lead {
+        max-width: 42rem;
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-size: 1.08rem;
+        line-height: 1.75;
+      }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+        margin-top: 28px;
+      }
+
+      .card {
+        background: var(--surface-strong);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 22px;
+      }
+
+      .card h2 {
+        margin: 0 0 10px;
+        font-size: 1.2rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 16px;
+        padding: 12px 18px;
+        border-radius: 999px;
+        text-decoration: none;
+        color: #fff9f5;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+        box-shadow: 0 16px 30px rgba(141, 65, 33, 0.24);
+        transition: transform 140ms ease, box-shadow 140ms ease;
+      }
+
+      .cta:hover,
+      .cta:focus-visible {
+        transform: translateY(-1px);
+        box-shadow: 0 20px 34px rgba(141, 65, 33, 0.28);
+      }
+
+      footer {
+        margin-top: 24px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      @media (max-width: 640px) {
+        .wrap {
+          padding-top: 28px;
+        }
+
+        .hero {
+          padding: 28px 20px;
+          border-radius: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="hero">
+        <p class="eyebrow">Where is it?</p>
+        <h1>Legal Pages</h1>
+        <p class="lead">
+          This site hosts public documents for the Where is it? app. The privacy policy below is
+          intended for app store publication and user access.
+        </p>
+
+        <div class="card-grid">
+          <article class="card">
+            <h2>Privacy Policy</h2>
+            <p>
+              Read how the app handles camera access, photos, local storage, and user data.
+            </p>
+            <a class="cta" href="./privacy-policy/">Open Privacy Policy</a>
+          </article>
+        </div>
+      </section>
+
+      <footer>
+        Published by Dnmr. Contact:
+        <a href="mailto:danmaar@protonmail.com">danmaar@protonmail.com</a>
+      </footer>
+    </main>
+  </body>
+</html>
