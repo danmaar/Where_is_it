@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert } from "react-native";
+import { Alert, Linking } from "react-native";
 import { Button, Card, List, SegmentedButtons, Text } from "react-native-paper";
 
 import { Screen } from "@/components/Screen";
@@ -9,6 +9,7 @@ import { AppThemeMode, useAppStore } from "@/features/app/useAppStore";
 import { useI18n } from "@/i18n";
 
 export default function SettingsScreen() {
+  const authorRepositoryUrl = "https://github.com/danmaar/my-inventory";
   const [loading, setLoading] = useState(false);
   const bumpRevision = useAppStore((state) => state.bumpRevision);
   const setLanguage = useAppStore((state) => state.setLanguage);
@@ -76,6 +77,14 @@ export default function SettingsScreen() {
     await setStoredThemeMode(nextThemeMode);
   };
 
+  const handleOpenAuthorRepository = async () => {
+    try {
+      await Linking.openURL(authorRepositoryUrl);
+    } catch {
+      Alert.alert("GitHub", authorRepositoryUrl);
+    }
+  };
+
   return (
     <Screen>
       <Card>
@@ -139,6 +148,13 @@ export default function SettingsScreen() {
             title={t("settings.aboutPlatformTitle")}
             description={t("settings.aboutPlatformDescription")}
             left={(props) => <List.Icon {...props} icon="android" />}
+          />
+          <List.Item
+            title="GitHub"
+            description={authorRepositoryUrl.replace("https://", "")}
+            left={(props) => <List.Icon {...props} icon="github" />}
+            right={(props) => <List.Icon {...props} icon="open-in-new" />}
+            onPress={() => void handleOpenAuthorRepository()}
           />
         </Card.Content>
       </Card>

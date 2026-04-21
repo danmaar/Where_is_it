@@ -5,7 +5,7 @@ type TranslationValue = string | ((params?: TranslationParams) => string);
 
 const translations = {
   ru: {
-    appName: "Мой инвентарь",
+    appName: "Where is it?",
     common: {
       add: "Добавить",
       save: "Сохранить",
@@ -148,7 +148,7 @@ const translations = {
       importMerge: "Объединить",
       importReplace: "Заменить",
       aboutTitle: "О приложении",
-      aboutAppTitle: "Мой инвентарь",
+      aboutAppTitle: "Where is it?",
       aboutAppDescription:
         "Offline-first MVP для домашнего инвентаря без облака и без регистрации.",
       aboutStorageTitle: "Локальное хранение",
@@ -179,7 +179,7 @@ const translations = {
     }
   },
   en: {
-    appName: "My Inventory",
+    appName: "Where is it?",
     common: {
       add: "Add",
       save: "Save",
@@ -322,7 +322,7 @@ const translations = {
       importMerge: "Merge",
       importReplace: "Replace",
       aboutTitle: "About",
-      aboutAppTitle: "My Inventory",
+      aboutAppTitle: "Where is it?",
       aboutAppDescription: "An offline-first MVP for home inventory with no cloud and no sign-up.",
       aboutStorageTitle: "Local storage",
       aboutStorageDescription: "All data stays only on the device in SQLite.",
